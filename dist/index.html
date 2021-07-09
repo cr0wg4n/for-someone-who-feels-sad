@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>for you {}</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <style>
+    .button {
+      border: 0.1cm  rgb(177, 174, 174);
+      border-style: dashed;
+      padding: 20px;
+      border-radius: 50%;
+      font-size: medium;
+    }
+    .text {
+      font-size: larger;
+      text-align: center;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div id="app">
+    <div v-show="time > 0">
+      <div class="text">
+        Tiempo de espera: {{ time }}
+      </div>
+      <br>
+      <button @click="animate" class="button">
+        {{ button }}
+      </button>
+    </div>
+    <div v-show="time <= 0" class="gift">
+      TE REGALO ESTA CANCION NIKI :D
+      <br>
+      <br>
+      <iframe 
+        id="embed"
+        width="420" 
+        height="360" 
+        src="https://www.youtube.com/embed/23CerbdpveQ" 
+        title="YouTube video player" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <div style="position: absolute; bottom: 0;">
+      made by "you know who"
+    </div>
+  </div>
+</body>
+
+<script>
+  var app = new Vue({
+    el: '#app',
+    data: {
+      time: 50,
+      button: 'Presioname :3',
+      counter: 1,
+    },
+    watch: {
+      time (value) {
+        if (value==0) {
+          this.animateFrame()
+        }
+      }
+    },
+    methods: {
+      animate (event) {
+        const targets = event.target
+        anime({
+          targets,
+          translateX: this.randomizer(320),
+          translateY: this.randomizer(600),
+          backgroundColor: `rgba(${this.randomColor()},${this.randomColor()},${this.randomColor()},0.4)`,
+        })
+        this.button = `${this.randomPhrase()} x${this.counter} ${this.counter>3?':P':''}`
+        this.counter++
+      },
+      randomizer (max) {
+        return Math.random() * (max - 0) + 0
+      },
+      randomPhrase() {
+        const phrase = ['ooleee!', 'uuuopss!', 'yipiee!', 'orale!', 'jajaja', 'lero lero!']
+        return phrase[this.randomizer(phrase.length-1)]
+      },
+      animateFrame () {
+        const embed = document.getElementById("embed")
+        console.log(embed)
+        anime({
+          targets: embed,
+          scale: {
+            value: 3,
+            duration: 1000,
+            delay: 300,
+            easing: 'easeInOutQuart',
+          },
+          direction: 'alternate'
+        })
+      },
+      updateTime () {
+        setInterval(() => {
+          this.time--
+        }, 1000);
+      },
+      randomColor () {
+        return Math.random() * (255 - 0) + 0
+      }
+    },
+    created () {
+      this.updateTime()
+    }
+  })
+</script>
+
+</html>
