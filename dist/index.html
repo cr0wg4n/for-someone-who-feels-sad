@@ -47,6 +47,10 @@
         title="YouTube video player" 
         frameborder="0" 
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <br>
+        <div v-if="show">
+          upps tu puntaje: {{ counter }}
+        </div>
     </div>
     <div style="position: absolute; bottom: 0;">
       made by "you know who"
@@ -61,11 +65,15 @@
       time: 50,
       button: 'Presioname :3',
       counter: 1,
+      show: false
     },
     watch: {
       time (value) {
         if (value==0) {
           this.animateFrame()
+          setTimeout(() => {
+            this.show = true
+          }, 4000);
         }
       }
     },
@@ -85,12 +93,13 @@
         return Math.random() * (max - 0) + 0
       },
       randomPhrase() {
-        const phrase = ['ooleee!', 'uuuopss!', 'yipiee!', 'orale!', 'jajaja', 'lero lero!']
-        return phrase[this.randomizer(phrase.length-1)]
+        const phrase = ['ooleee!', 'uuuopss!', 'yipiee!', 'orale!', 'jajaja', 'lero lero!', 'casii!']
+        const index = parseInt(this.randomizer(phrase.length))
+        console.log(index)
+        return phrase[index]
       },
       animateFrame () {
         const embed = document.getElementById("embed")
-        console.log(embed)
         anime({
           targets: embed,
           scale: {
